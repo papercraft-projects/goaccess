@@ -91,7 +91,7 @@ static const GPanel paneling[] = {
 #endif
   {MIME_TYPE           , print_json_data , print_json_sub_items } ,
   {TLS_TYPE            , print_json_data , print_json_sub_items } ,
-
+  {FLOWKAT_ID          , print_json_data , NULL } ,
 };
 /* *INDENT-ON* */
 

@@ -282,6 +282,7 @@ init_log_item (GLog *glog) {
   logitem->vhost = NULL;
   logitem->userid = NULL;
   logitem->cache_status = NULL;
+  logitem->flowkat_id = NULL;
 
   /* UMS */
   logitem->mime_type = NULL;
@@ -341,6 +342,8 @@ free_glog (GLogItem *logitem) {
     free (logitem->uniq_key);
   if (logitem->userid != NULL)
     free (logitem->userid);
+  if (logitem->flowkat_id != NULL)
+    free (logitem->flowkat_id);
   if (logitem->cache_status != NULL)
     free (logitem->cache_status);
   if (logitem->vhost != NULL)
@@ -1984,6 +1987,47 @@ cleanup_logitem (int ret, GLogItem *logitem) {
  * corresponding data structure.
  *
  * On error, logitem->errstr will contains the error message. */
+/* Extract FlowKat identity (~user or cafe/ID) from URI. */
+static char *
+extract_flowkat_id (const char *req) {
+  char *id = NULL;
+  const char *p;
+
+  if (!req) return NULL;
+
+  /* Pattern 1: /~([a-zA-Z0-9_-]+) */
+  if ((p = strstr (req, "/~")) != NULL) {
+    p += 2;
+    const char *end = p;
+    while (*end && (isalnum (*end) || *end == '-' || *end == '_'))
+      end++;
+    if (end > p) {
+      id = xmalloc (end - p + 2);
+      id[0] = '~';
+      memcpy (id + 1, p, end - p);
+      id[end - p + 1] = '\0';
+      return id;
+    }
+  }
+
+  /* Pattern 2: /cafe/([0-9]+) */
+  if ((p = strstr (req, "/cafe/")) != NULL) {
+    p += 6;
+    const char *end = p;
+    while (*end && isdigit (*end))
+      end++;
+    if (end > p) {
+      id = xmalloc (end - p + 6);
+      memcpy (id, "cafe/", 5);
+      memcpy (id + 5, p, end - p);
+      id[end - p + 5] = '\0';
+      return id;
+    }
+  }
+
+  return NULL;
+}
+
 int
 parse_line (GLog *glog, char *line, int dry_run, GLogItem **logitem_out) {
   char *fmt = conf.log_format;
@@ -2064,6 +2108,8 @@ parse_line (GLog *glog, char *line, int dry_run, GLogItem **logitem_out) {
   }
 
   logitem->uniq_key = get_uniq_visitor_key (logitem);
+  logitem->flowkat_id = extract_flowkat_id (logitem->req);
+
   *logitem_out = logitem;
 
   return ret;

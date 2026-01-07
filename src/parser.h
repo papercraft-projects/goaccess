@@ -112,6 +112,7 @@ typedef struct GLogItem_ {
   char *tls_type_cypher;
 
   char *errstr;
+  char *flowkat_id;
   struct tm dt;
 } GLogItem;
 

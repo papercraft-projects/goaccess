@@ -74,6 +74,7 @@ static int gen_asn_key (GKeyData * kdata, GLogItem * logitem);
 /* UMS */
 static int gen_mime_type_key (GKeyData * kdata, GLogItem * logitem);
 static int gen_tls_type_key (GKeyData * kdata, GLogItem * logitem);
+static int gen_flowkat_id_key (GKeyData * kdata, GLogItem * logitem);
 
 /* insertion metric routines */
 static void insert_data (GModule module, GKeyData * kdata);
@@ -376,6 +377,19 @@ static const GParse paneling[] = {
     gen_tls_type_key,
     insert_data,
     insert_rootmap,
+    insert_hit,
+    insert_visitor,
+    insert_bw,
+    insert_cumts,
+    insert_maxts,
+    NULL,
+    NULL,
+    NULL,
+  }, {
+    FLOWKAT_ID,
+    gen_flowkat_id_key,
+    insert_data,
+    NULL,
     insert_hit,
     insert_visitor,
     insert_bw,
@@ -988,6 +1002,18 @@ gen_cache_status_key (GKeyData *kdata, GLogItem *logitem) {
     return 1;
 
   get_kdata (kdata, logitem->cache_status, logitem->cache_status);
+  kdata->numdate = logitem->numdate;
+
+  return 0;
+}
+
+/* A wrapper to generate a unique key for the FlowKat ID panel. */
+static int
+gen_flowkat_id_key (GKeyData *kdata, GLogItem *logitem) {
+  if (!logitem->flowkat_id)
+    return 1;
+
+  get_kdata (kdata, logitem->flowkat_id, logitem->flowkat_id);
   kdata->numdate = logitem->numdate;
 
   return 0;

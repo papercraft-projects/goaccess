@@ -76,6 +76,7 @@ static const GEnum enum_modules[] = {
 #endif
   {"MIME_TYPE"       , MIME_TYPE}       ,
   {"TLS_TYPE"        , TLS_TYPE}        ,
+  {"FLOWKAT_ID"      , FLOWKAT_ID}      ,
 };
 /* *INDENT-ON* */
 

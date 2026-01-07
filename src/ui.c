@@ -90,6 +90,7 @@ static const GOutput outputting[] = {
 #endif
   {MIME_TYPE       , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , 0 , 1 , 0 , 0} ,
   {TLS_TYPE        , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , 0 , 1 , 0 , 0} ,
+  {FLOWKAT_ID     , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , 0 , 1 , 0 , 0} ,
 };
 /* *INDENT-ON* */
 

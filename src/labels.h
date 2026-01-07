@@ -234,6 +234,14 @@
   N_("TLS version and picked algorithm")
 #define TLS_TYPE_LABEL                \
   N_("TLS Settings")
+#define FLOWKAT_ID_HEAD               \
+  N_("FlowKat Identities (Users/Cafes)")
+#define FLOWKAT_ID_DESC               \
+  N_("Top User/Cafe IDs extracted from URI patterns")
+#define FLOWKAT_ID_LABEL              \
+  N_("FlowKat ID")
+#define FLOWKAT_ID_ID                 \
+  N_("flowkat_id")
 
 /* Find Labels */
 #define CISENSITIVE                    \

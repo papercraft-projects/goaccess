@@ -149,7 +149,10 @@ static const GHTML htmldef[] = {
     {CHART_VBAR, hits_visitors_plot, 0, 1, NULL, NULL},
     {CHART_VBAR, hits_bw_plot, 0, 1, NULL, NULL},
   }},
-
+  {FLOWKAT_ID, 1, 0, print_metrics, {
+    {CHART_VBAR, hits_visitors_plot, 0, 0, NULL, NULL},
+    {CHART_VBAR, hits_bw_plot, 0, 0, NULL, NULL},
+  }},
 };
 /* *INDENT-ON* */
 

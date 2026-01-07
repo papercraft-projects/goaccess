@@ -78,10 +78,12 @@ echo -e "${YELLOW}[Step 3] Select Run Mode${NC}"
 echo "1) Terminal Dashboard (Interactive TUI)"
 echo "2) Static HTML Report (output to report.html)"
 echo "3) Real-time HTML Report (WebSocket on port 7890)"
-echo "4) Custom Arguments"
-read -p "Choose an option [1-3]: " RUN_MODE
+echo "4) FlowKat Native Analysis (Built-in user/cafe detection)"
+echo "5) Filter by ID/User (Keyword search)"
+echo "6) Custom Arguments"
+read -p "Choose an option [1-6]: " RUN_MODE
 
-# 4. Execution
+# 4. Execution Logic
 LOG_DIR=$(pwd)
 LOG_FILE_NAME=$(basename "$SELECTED_LOG")
 ABS_LOG_PATH=$(realpath "$SELECTED_LOG")
@@ -103,10 +105,19 @@ case $RUN_MODE in
         docker run --rm -it -p 7890:7890 -v "$ABS_LOG_DIR":/logs -v "$LOG_DIR":/output goaccess-flowkat "/logs/$LOG_FILE_NAME" --log-format="$SELECTED_FORMAT" -o /output/report.html --real-time-html
         ;;
     4)
-        read -p "Enter extra arguments (e.g., --log-format=...): " EXTRA_ARGS
-        if [[ $EXTRA_ARGS != *"--log-format"* ]]; then
-            EXTRA_ARGS="--log-format=$SELECTED_FORMAT $EXTRA_ARGS"
-        fi
+        echo -e "${GREEN}Running FlowKat Native Analysis...${NC}"
+        echo -e "${YELLOW}Extracting Identities directly from C binary...${NC}"
+        docker run --rm -it -v "$ABS_LOG_DIR":/logs -v "$LOG_DIR":/output goaccess-flowkat "/logs/$LOG_FILE_NAME" --log-format="$SELECTED_FORMAT" -o /output/report.html
+        echo -e "${GREEN}✔ Native Analysis Done! Check 'FlowKat Identities' panel in report.html.${NC}"
+        ;;
+    5)
+        read -p "Enter Keyword/ID to filter (e.g. 20181601): " KEYWORD
+        echo -e "${GREEN}Filtering logs for '$KEYWORD'...${NC}"
+        grep "$KEYWORD" "$SELECTED_LOG" | docker run --rm -i -v "$LOG_DIR":/output goaccess-flowkat - --log-format="$SELECTED_FORMAT" -o /output/report.html
+        echo -e "${GREEN}✔ Filtered Analysis Done! Check report.html.${NC}"
+        ;;
+    6)
+        read -p "Enter extra arguments: " EXTRA_ARGS
         docker run --rm -it -v "$ABS_LOG_DIR":/logs goaccess-flowkat "/logs/$LOG_FILE_NAME" $EXTRA_ARGS
         ;;
     *)

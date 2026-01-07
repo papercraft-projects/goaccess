@@ -52,9 +52,9 @@ extern struct tm now_tm;
 
 /* total number of modules */
 #ifdef HAVE_GEOLOCATION
-#define TOTAL_MODULES    19
+#define TOTAL_MODULES    20
 #else
-#define TOTAL_MODULES    17
+#define TOTAL_MODULES    18
 #endif
 
 /* maximum number of items within a panel */
@@ -113,6 +113,7 @@ typedef enum MODULES {
 #endif
   MIME_TYPE,
   TLS_TYPE,
+  FLOWKAT_ID,
 } GModule;
 
 /* Total number of storage metrics (GSMetric) */
