@@ -58,8 +58,8 @@
 #define T_ACTIVE_PANEL           _("[Active Panel: %1$s]")
 #define T_QUIT                   _("[q]uit GoAccess")
 #define T_HELP_ENTER             _("[?] Help [Enter] Exp. Panel")
-#define T_DASH                   _( "Dashboard")
-#define T_DASH_HEAD              _( "Dashboard - Overall Analyzed Requests")
+#define T_DASH                   _( "FlowKat Dashboard")
+#define T_DASH_HEAD              _( "FlowKat - Overall Analyzed Requests")
 #define T_HEAD                   N_( "Overall Analyzed Requests")
 
 #define T_BW                     _( "Tx. Amount")

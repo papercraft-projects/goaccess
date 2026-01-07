@@ -59,6 +59,7 @@
 #include "countries110m.h"
 #include "chartsjs.h"
 #include "appjs.h"
+#include "logo.h"
 
 static void hits_bw_plot (FILE * fp, GHTMLPlot plot, int sp);
 static void hits_bw_req_plot (FILE * fp, GHTMLPlot plot, int sp);
@@ -295,8 +296,12 @@ print_html_body (FILE * fp, const char *now)
   "<div class='app-loading-status'><small class='muted'></small></div>"
   "</div>"
   "<div class='container hide' role='document'>"
-  "<header class='page-header'>"
-  "<h1 class='h-dashboard'>"
+  "<header class='page-header' style='display:flex; align-items:center;'>"
+  "<div style='margin-right:20px;'>"
+  "<img src='data:image/png;base64,%.*s' style='height:60px;'>"
+  "</div>"
+  "<div>"
+  "<h1 class='h-dashboard' style='margin:0;'>"
   "<span class='hidden-xs hidden-sm'>"
   "<i class='fa fa-tachometer' aria-hidden='true'></i> %s"
   "</span>"
@@ -305,6 +310,7 @@ print_html_body (FILE * fp, const char *now)
   "<i class='fa fa-circle nav-ws-status mini' aria-label='Status indicator'></i>"
   "</span>"
   "</h1>"
+  "</div>"
   "<div style='margin-left: auto;'>"
   "<h4>"
   "<span class='label label-info' style='display:%s' id='last-updated' aria-live='polite' aria-atomic='true'>"
@@ -312,7 +318,7 @@ print_html_body (FILE * fp, const char *now)
   "<span class='last-updated'>%s</span>"
   "</span>"
   "</h4>"
-  "</div>", T_DASH, conf.no_html_last_updated ? "none" : "block", INFO_LAST_UPDATED, now);
+  "</div>", logo_length, logo, T_DASH, conf.no_html_last_updated ? "none" : "block", INFO_LAST_UPDATED, now);
   fprintf (fp,
   "<p class='report-title' id='report-title'>%s</p>"
   "</header>"

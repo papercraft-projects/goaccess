@@ -4,6 +4,8 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 dist_noinst_DATA =                 \
   resources/tpls.html              \
+  resources/banner.txt             \
+  resources/logo.base64            \
   resources/css/app.css            \
   resources/css/bootstrap.min.css  \
   resources/css/fa.min.css         \
@@ -27,7 +29,9 @@ BUILT_SOURCES =       \
   src/hoganjs.h       \
   src/countries110m.h \
   src/chartsjs.h      \
-  src/appjs.h
+  src/appjs.h         \
+  src/banner.h        \
+  src/logo.h
 
 CLEANFILES =                          \
   src/tpls.h                          \
@@ -40,6 +44,8 @@ CLEANFILES =                          \
   src/countries110m.h                 \
   src/chartsjs.h                      \
   src/appjs.h                         \
+  src/banner.h                        \
+  src/logo.h                          \
   resources/tpls.html.tmp             \
   resources/countries-110m.json.tmp   \
   resources/css/bootstrap.min.css.tmp \
@@ -50,6 +56,14 @@ CLEANFILES =                          \
   resources/js/hogan.min.js.tmp       \
   resources/js/charts.js.tmp          \
   resources/js/app.js.tmp
+
+# Banner
+src/banner.h: bin2c$(EXEEXT) $(srcdir)/resources/banner.txt
+	./bin2c $(srcdir)/resources/banner.txt src/banner.h banner
+
+# Logo
+src/logo.h: bin2c$(EXEEXT) $(srcdir)/resources/logo.base64
+	./bin2c $(srcdir)/resources/logo.base64 src/logo.h logo
 
 # Tpls
 src/tpls.h: bin2c$(EXEEXT) $(srcdir)/resources/tpls.html

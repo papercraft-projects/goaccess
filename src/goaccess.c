@@ -77,6 +77,8 @@
 #include "websocket.h"
 #include "xmalloc.h"
 
+#include "banner.h"
+
 GConf conf = {
   .append_method = 1,
   .append_protocol = 1,
@@ -1643,6 +1645,11 @@ main (int argc, char **argv) {
   parse_cmd_line (argc, argv);
 
   logs = initializer ();
+  /* display banner */
+  if (!conf.output_stdout && !conf.no_progress) {
+    printf ("%.*s\n", banner_length, banner);
+    usleep (500000); /* 0.5s */
+  }
 
   /* ignore outputting, process only */
   if (conf.process_and_exit) {
