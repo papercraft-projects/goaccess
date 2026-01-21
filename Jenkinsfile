@@ -45,7 +45,7 @@ pipeline {
         }
 
         // ========================================
-        // Stage 2: 버전 설정 (Git 커밋 해시)
+        // Stage 2: 버전 설정 (Git 커밋 해시 + Git 정보 조기 추출)
         // ========================================
         stage('Setup Version') {
             steps {
@@ -65,6 +65,17 @@ pipeline {
                         returnStdout: true
                     ).trim()
 
+                    // ✅ 조기 추출: Git 정보를 환경변수에 저장 (post block에서 git 컨텍스트 손실 방지)
+                    env.COMMIT_MESSAGE = sh(
+                        script: "git log -1 --pretty=%B",
+                        returnStdout: true
+                    ).trim()
+
+                    env.COMMIT_AUTHOR = sh(
+                        script: "git log -1 --pretty=%an",
+                        returnStdout: true
+                    ).trim()
+
                     echo "================================================"
                     echo "Building GoAccess Docker Image"
                     echo "================================================"
@@ -72,6 +83,8 @@ pipeline {
                     echo "Build Version: ${env.BUILD_VERSION}"
                     echo "Build Date: ${env.BUILD_DATE}"
                     echo "Docker Registry: ${env.DOCKER_REGISTRY}"
+                    echo "Author: ${env.COMMIT_AUTHOR}"
+                    echo "Message: ${env.COMMIT_MESSAGE}"
                     echo "================================================"
                 }
             }
@@ -137,15 +150,9 @@ pipeline {
     post {
         success {
             script {
-                def commitMsg = sh(
-                    script: "git log -1 --pretty=%B",
-                    returnStdout: true
-                ).trim()
-
-                def author = sh(
-                    script: "git log -1 --pretty=%an",
-                    returnStdout: true
-                ).trim()
+                // ✅ Setup Version stage에서 조기 추출한 환경변수 직접 사용
+                def commitMsg = env.COMMIT_MESSAGE ?: "N/A"
+                def author = env.COMMIT_AUTHOR ?: "N/A"
 
                 def durationSeconds = ((System.currentTimeMillis() - currentBuild.startTimeInMillis) / 1000).toInteger()
                 def minutes = durationSeconds.intdiv(60)
@@ -168,10 +175,8 @@ pipeline {
 
         failure {
             script {
-                def author = sh(
-                    script: "git log -1 --pretty=%an",
-                    returnStdout: true
-                ).trim()
+                // ✅ Setup Version stage에서 조기 추출한 환경변수 직접 사용
+                def author = env.COMMIT_AUTHOR ?: "N/A"
 
                 mattermostSend(
                     color: 'danger',
