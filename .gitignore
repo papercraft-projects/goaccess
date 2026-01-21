@@ -111,3 +111,135 @@ Makefile.in
 /resources/tpls.html.tmp
 /resources/countries-110m.json.tmp
 /resources/js/topojson.v3.min.js.tmp
+api-key-*
+.env/
+# Build Artifacts & Distribution
+*-secret.*
+*_backup_*/
+*_key.*
+*.egg
+.claude/skills/*/*/*secret*
+.netlify/
+secret-*.*
+.env
+# Version: 0.33.0
+.VolumeIcon.icns
+dist/
+*.backup
+secret-key-*
+.#*
+*.tsbuildinfo
+.claude/settings.local.json
+# ============================================
+coverage.json
+# Mac
+.TemporaryItems
+# Secrets and Credentials (CRITICAL)
+.vercel/
+*.swo
+*.pyo
+# Updated: 2026-01-10
+out/
+# Python Cache & Bytecode
+*.pfx
+*_token=*
+# Linux
+*.sqlite
+.directory
+*.dbm
+.nuxt/
+.turbo/
+.Trashes
+# ===========================================
+*.sw?
+# Skill-specific credentials
+.fseventsd
+*.sln
+*.bak
+*.sqlite3
+*-secret-key.*
+# IDE & Editors
+*.swp
+*.key.*
+*.suo
+*-key.*
+private-key*
+# OS Files
+# Claude Code Configuration
+# Logs & Temporary Files
+.mypy_cache/
+*.jks
+*.pyd
+# Build Tools & Frameworks
+# Private keys (specific patterns to avoid false positives)
+# Test Coverage
+# Environment files
+*.pem
+.uv-cache/
+.claude/skills/*/*/*key*
+# Virtual Environments
+.DocumentRevisions-V100
+.venv/
+node_modules/
+build/
+# Credential patterns in environment files
+.claude/skills/*/secrets/
+# Cloud provider credentials
+Thumbs.db
+htmlcov/
+.claude/local/
+dist-ssr/
+*.pyc
+*-backup/
+.cursor/
+.aws/config
+env/
+# Purpose: Essential patterns for user projects
+# Deployment & CI/CD
+.firebase/
+# Node.js (for docs/Nextra)
+.coverage
+.uv_cache/
+*~
+venv/
+*.secret.*
+.LSOverride
+*.db
+*.backup/
+logs/
+*.sublime-project
+*.rdb
+.claude/.env.local*
+*_secret=*
+.claude/settings.local.*.json
+ehthumbs.db
+.tscache/
+# Windows
+*_secret.*
+# MoAI-ADK Package Distribution .gitignore
+.DS_Store
+.ruff_cache/
+*.tmp
+[Dd]esktop.ini
+# Certificate files
+.pytest_cache/
+# Backups
+# FIXED: Issue #237 - Replaced overly broad *key* and *secret* patterns
+.claude/skills/*/*/*token*
+.vscode/
+*.temp
+.moai-backups/
+__pycache__/
+.aws/credentials
+.env.*
+.Spotlight-V100
+*-api-key.*
+*.njsproj
+!.env.example
+.claude/skills/*/.env*
+*.egg-info/
+.next/
+*.sublime-workspace
+.AppleDouble
+*.p12
+.idea/

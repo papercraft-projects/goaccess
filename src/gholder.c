@@ -82,6 +82,7 @@ static const GPanel paneling[] = {
 #endif
   {MIME_TYPE       , add_root_to_holder , NULL} ,
   {TLS_TYPE        , add_root_to_holder , NULL} ,
+  {FLOWKAT_ID      , add_data_to_holder , NULL},
 };
 /* *INDENT-ON* */
 
@@ -659,6 +660,13 @@ load_holder_data (GRawData *raw_data, GHolder *h, GModule module, GSort sort) {
   const char *modstr = NULL;
   LOG_DEBUG (("== load_holder_data ==\n"));
 #endif
+
+  /* Pointer safety: Ensure panel is not NULL before dereferencing */
+  if (!panel) {
+    LOG_DEBUG (("panel is NULL for module: %d.\n", module));
+    free_raw_data (raw_data);
+    return;
+  }
 
   size = raw_data->size;
   h->holder_size = size > max_choices ? max_choices : size;

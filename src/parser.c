@@ -693,13 +693,23 @@ get_delim (char *dest, const char *p) {
 static char *
 parsed_string (const char *pch, const char **str, int move_ptr) {
   char *p;
-  size_t len = (pch - *str + 1);
+  ptrdiff_t diff;
+  size_t len;
 
+  diff = pch - *str;
+  if (diff < 0) {
+    p = xmalloc (1);
+    *p = '\0';
+    return p;
+  }
+
+  len = (size_t)diff + 1;
   p = xmalloc (len);
   memcpy (p, *str, (len - 1));
   p[len - 1] = '\0';
-  if (move_ptr)
-    *str += len - 1;
+  if (move_ptr) {
+    *str += diff;
+  }
 
   return trim_str (p);
 }
@@ -718,7 +728,7 @@ parse_string (const char **str, const char *delims, int cnt) {
     return NULL;
 
   end = !*delims ? 0x0 : *p;
-  do {
+  while (1) {
     /* match number of delims */
     if (*pch == end)
       idx++;
@@ -726,9 +736,12 @@ parse_string (const char **str, const char *delims, int cnt) {
     if ((*pch == end && cnt == idx) || *pch == '\0')
       return parsed_string (pch, str, 1);
     /* advance to the first unescaped delim */
-    if (*pch == '\\')
+    if (*pch == '\\' && *(pch + 1) != '\0') {
+      pch += 2;
+    } else {
       pch++;
-  } while (*pch++);
+    }
+  }
 
   return NULL;
 }
@@ -868,11 +881,22 @@ set_agent_hash (GLogItem *logitem) {
 static int
 handle_default_case_token (const char **str, const char *p) {
   char *pch = NULL;
-  /* 경계 검사: p[0] 또는 p[1]이 NULL이면 반환 */
-  if (p[0] == '\0' || p[1] == '\0')
+  if (p == NULL || p[0] == '\0' || p[1] == '\0') {
     return 0;
-  if ((pch = strchr (*str, p[1])) != NULL)
-    *str += pch - *str;
+  }
+  if (*p == '^') {
+    pch = strchr (*str, p[1]);
+    if (pch == NULL) {
+      *str += strlen (*str);
+    } else {
+      *str = pch;
+    }
+    return 0;
+  }
+  pch = strchr (*str, p[1]);
+  if (pch != NULL) {
+    *str = pch;
+  }
   return 0;
 }
 

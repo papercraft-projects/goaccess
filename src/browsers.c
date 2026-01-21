@@ -340,6 +340,7 @@ static const char *const browsers[][2] = {
   {"Fastly-HealthChecker", "Uptime"},
   {"Cloudflare-Healthchecks", "Uptime"},
   {"CloudFlare-AlwaysOnline", "Uptime"},
+  {"FlowKat", "Uptime"},
 
   /* Performance and Caching: place here */
   {"ShortPixel", "Performance"}, /* Image Optimization */

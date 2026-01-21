@@ -115,7 +115,7 @@ ABS_LOG_DIR=$(dirname "$ABS_LOG_PATH")
 case $RUN_MODE in
     1)
         echo -e "${GREEN}Starting Terminal Dashboard...${NC}"
-        docker run --rm -it -v "$ABS_LOG_DIR":/logs goaccess-flowkat "/logs/$LOG_FILE_NAME" --log-format="$SELECTED_FORMAT" --date-format='%d/%b/%Y' --time-format='%H:%M:%S'
+        docker run --rm -it -v "$ABS_LOG_DIR":/logs goaccess-flowkat "/logs/$LOG_FILE_NAME" --log-format="$SELECTED_FORMAT" --date-format='%d/%b/%Y' --time-format='%H:%M:%S' --no-progress --no-color
         ;;
     2)
         echo -e "${GREEN}Generating report.html...${NC}"
