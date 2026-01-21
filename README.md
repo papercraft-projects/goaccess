@@ -77,6 +77,8 @@ not limited to:
 * Amazon CloudFront (Download Distribution).
 * Amazon Simple Storage Service (S3)
 * AWS Elastic Load Balancing
+* **VCOMBINED** (Virtual Host Combined) - **NEW** ✅
+  Comprehensive virtual host and port parsing support for Nginx, Apache, and other vhosts-enabled servers.
 * Combined Log Format (XLF/ELF) Apache | Nginx
 * Common Log Format (CLF) Apache
 * Google Cloud Storage.
@@ -220,6 +222,16 @@ You can read more about using the docker image in [DOCKER.md](https://github.com
 
 #### Distribution Packages ####
 
+## Documentation ##
+
+### New Features
+- **[VCOMBINED Log Format Guide](./.moai/docs/api/vcombined-format.md)** - Detailed technical reference for virtual host and port parsing
+- **[Virtual Host Parsing Guide](./.moai/docs/guides/vhost-port-parsing.md)** - User-friendly guide with real-world scenarios and troubleshooting
+- **[CLI Options Reference](./.moai/docs/api/options-reference.md)** - Complete API reference for new CLI options
+- **[Release Notes - v1.0.0](./.moai/docs/RELEASE-NOTES-VHOST-001.md)** - Feature announcement and compatibility information
+
+### Official Resources
+
 GoAccess has minimal requirements, it's written in C and requires only ncurses.
 However, below is a table of some optional dependencies in some distros to
 build GoAccess from source.
@@ -290,6 +302,26 @@ and applying a filter
 
     # tail -f -n +0 access.log | grep -i --line-buffered 'firefox' | goaccess -o report.html --real-time-html -
 
+### Virtual Host and Port Parsing (VCOMBINED) ###
+
+GoAccess now supports **VCOMBINED** format for comprehensive virtual host and port analysis! Perfect for multi-tenant environments, load balancers, and reverse proxies.
+
+**Example log format:**
+```
+biz.example.com:443 203.0.113.45 - - [21/Jan/2026:14:30:45 +0900] "GET / HTTP/1.1" 301 166 "-" "Mozilla/5.0"
+```
+
+**Quick start:**
+
+    # goaccess access.log --log-format=VCOMBINED --date-format="%d/%b/%Y" --time-format="%H:%M:%S"
+
+**Key features:**
+- Automatically separates virtual host from port information
+- Accurate client IP parsing (no hostname:port conflicts)
+- Support for all execution modes: TUI, HTML reports, real-time monitoring
+- Multi-vhost traffic analysis and comparison
+
+**For detailed documentation:** See [vhost:port parsing guide](./.moai/docs/guides/vhost-port-parsing.md)
 
 ### Multiple Log files ###
 
