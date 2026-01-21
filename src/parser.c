@@ -868,6 +868,9 @@ set_agent_hash (GLogItem *logitem) {
 static int
 handle_default_case_token (const char **str, const char *p) {
   char *pch = NULL;
+  /* 경계 검사: p[0] 또는 p[1]이 NULL이면 반환 */
+  if (p[0] == '\0' || p[1] == '\0')
+    return 0;
   if ((pch = strchr (*str, p[1])) != NULL)
     *str += pch - *str;
   return 0;
